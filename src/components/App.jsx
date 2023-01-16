@@ -16,7 +16,23 @@ export class App extends Component {
     filter: '',
   };
 
-  //получаем доступ к стейту формы для ее сабмита (поднятие состояния)
+  componentDidMount() {
+    console.log('App componentDidMount');
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      console.log('Обновилось поле Contacts, записываю contacts в хранилище');
+
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   addContact = ({ name, number }) => {
     const contact = {
       id: nanoid(),
@@ -36,8 +52,6 @@ export class App extends Component {
   deleteContact = contactId =>
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(({ id }) => id !== contactId),
-      // const { contacts } = this.state;
-      //     contacts: [...contacts.filter(
     }));
 
   changeFilter = e => {
