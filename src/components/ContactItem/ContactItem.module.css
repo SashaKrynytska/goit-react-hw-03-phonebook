@@ -1,0 +1,11 @@
+.button {
+  margin: 0 0 15px 15px;
+  width: max-content;
+  background-color: transparent;
+  cursor: pointer;
+  border: 2px solid darkgray;
+}
+
+.button:hover {
+  border: 2px solid lightskyblue;
+}
