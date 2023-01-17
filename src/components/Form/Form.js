@@ -3,14 +3,16 @@ import css from './Form.module.css';
 import PropTypes from 'prop-types';
 
 class Form extends Component {
-  //этот стейт нужен для перерисовки инпутов не для сабмита
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   state = {
     name: '',
     number: '',
   };
 
   handleChange = evt => {
-    //     this.setState({ name: evt.currentTarget.value });
     const { name, value } = evt.currentTarget;
     this.setState({ [name]: value });
     //   this.setState({ [evt.target.name]: evt.target.value });
@@ -18,7 +20,13 @@ class Form extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state);
+    // this.props.onSubmit(this.state);
+    const { onSubmit, contacts } = this.props;
+    onSubmit(this.state);
+
+    if (contacts.find(contact => contact.name === this.state.name)) {
+      return;
+    }
     this.reset();
   };
 
@@ -62,9 +70,5 @@ class Form extends Component {
     );
   }
 }
-
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
 
 export default Form;

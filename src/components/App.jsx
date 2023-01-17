@@ -41,12 +41,14 @@ export class App extends Component {
     };
 
     if (this.state.contacts.some(e => e.name === name)) {
-      return alert(`${name} is already in contacts.`);
+      return alert(`${name} is already in contacts!`);
+    } else if (this.state.contacts.some(e => e.number === number)) {
+      return alert(`Number ${number} is already in contacts!`);
+    } else {
+      this.setState(({ contacts }) => ({
+        contacts: [contact, ...contacts],
+      }));
     }
-
-    this.setState(({ contacts }) => ({
-      contacts: [contact, ...contacts],
-    }));
   };
 
   deleteContact = contactId =>
@@ -74,7 +76,7 @@ export class App extends Component {
     return (
       <div>
         <Section title="Phonebook">
-          <Form onSubmit={this.addContact} />
+          <Form onSubmit={this.addContact} contacts={this.state.contacts} />
         </Section>
         <Section title="Contacts">
           <Filter value={filter} onChange={this.changeFilter} />
